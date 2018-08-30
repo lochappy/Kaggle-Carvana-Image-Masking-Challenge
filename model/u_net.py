@@ -106,9 +106,11 @@ def get_unet_128(input_shape=(128, 128, 3),
     up1 = Activation('relu')(up1)
     # 128
 
-    classify = Conv2D(num_classes, (1, 1), activation='sigmoid')(up1)
+    up1 = Conv2D(num_classes, (1, 1))(up1)
+    classify0 = Activation('sigmoid',name="mask")(up1)
+    classify1 = Activation('sigmoid',name="mae")(up1)
 
-    model = Model(inputs=inputs, outputs=classify)
+    model = Model(inputs=inputs, outputs=[classify0,classify1])
 
     #model.compile(optimizer=RMSprop(lr=0.0001), loss=bce_dice_loss, metrics=[dice_coeff])
 
@@ -238,9 +240,11 @@ def get_unet_256(input_shape=(256, 256, 3),
     up0 = Activation('relu')(up0)
     # 256
 
-    classify = Conv2D(num_classes, (1, 1), activation='sigmoid')(up0)
+    up0 = Conv2D(num_classes, (1, 1))(up0)
+    classify0 = Activation('sigmoid',name="mask")(up0)
+    classify1 = Activation('sigmoid',name="mae")(up0)
 
-    model = Model(inputs=inputs, outputs=classify)
+    model = Model(inputs=inputs, outputs=[classify0,classify1])
 
     #model.compile(optimizer=RMSprop(lr=0.0001), loss=bce_dice_loss, metrics=[dice_coeff])
 
@@ -392,9 +396,11 @@ def get_unet_512(input_shape=(512, 512, 3),
     up0a = Activation('relu')(up0a)
     # 512
 
-    classify = Conv2D(num_classes, (1, 1), activation='sigmoid')(up0a)
+    up0a = Conv2D(num_classes, (1, 1))(up0a)
+    classify0 = Activation('sigmoid',name="mask")(up0a)
+    classify1 = Activation('sigmoid',name="mae")(up0a)
 
-    model = Model(inputs=inputs, outputs=classify)
+    model = Model(inputs=inputs, outputs=[classify0,classify1])
 
     #model.compile(optimizer=RMSprop(lr=0.0001), loss=bce_dice_loss, metrics=[dice_coeff])
 
@@ -568,9 +574,11 @@ def get_unet_1024(input_shape=(1024, 1024, 3),
     up0b = Activation('relu')(up0b)
     # 1024
 
-    classify = Conv2D(num_classes, (1, 1), activation='sigmoid')(up0b)
+    up0b = Conv2D(num_classes, (1, 1))(up0b)
+    classify0 = Activation('sigmoid',name="mask")(up0b)
+    classify1 = Activation('sigmoid',name="mae")(up0b)
 
-    model = Model(inputs=inputs, outputs=classify)
+    model = Model(inputs=inputs, outputs=[classify0,classify1])
 
     #model.compile(optimizer=RMSprop(lr=0.0001), loss=bce_dice_loss, metrics=[dice_coeff])
 
