@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Input, concatenate, Conv2D, MaxPooling2D, Activation, UpSampling2D, BatchNormalization
+from keras.layers import Input, concatenate, Conv2D, MaxPooling2D, Activation, UpSampling2D, BatchNormalization, Flatten
 from keras.optimizers import RMSprop
 
 from model.losses import bce_dice_loss, dice_loss, weighted_bce_dice_loss, weighted_dice_loss, dice_coeff
@@ -108,7 +108,7 @@ def get_unet_128(input_shape=(128, 128, 3),
 
     up1 = Conv2D(num_classes, (1, 1))(up1)
     classify0 = Activation('sigmoid',name="mask")(up1)
-    classify1 = Activation('sigmoid',name="mae")(up1)
+    classify1 = Flatten(name="mae")(classify0)
 
     model = Model(inputs=inputs, outputs=[classify0,classify1])
 
@@ -242,7 +242,7 @@ def get_unet_256(input_shape=(256, 256, 3),
 
     up0 = Conv2D(num_classes, (1, 1))(up0)
     classify0 = Activation('sigmoid',name="mask")(up0)
-    classify1 = Activation('sigmoid',name="mae")(up0)
+    classify1 = Flatten(name="mae")(classify0)
 
     model = Model(inputs=inputs, outputs=[classify0,classify1])
 
@@ -398,7 +398,7 @@ def get_unet_512(input_shape=(512, 512, 3),
 
     up0a = Conv2D(num_classes, (1, 1))(up0a)
     classify0 = Activation('sigmoid',name="mask")(up0a)
-    classify1 = Activation('sigmoid',name="mae")(up0a)
+    classify1 = Flatten(name="mae")(classify0)
 
     model = Model(inputs=inputs, outputs=[classify0,classify1])
 
@@ -576,8 +576,8 @@ def get_unet_1024(input_shape=(1024, 1024, 3),
 
     up0b = Conv2D(num_classes, (1, 1))(up0b)
     classify0 = Activation('sigmoid',name="mask")(up0b)
-    classify1 = Activation('sigmoid',name="mae")(up0b)
-
+    classify1 = Flatten(name="mae")(classify0)
+    
     model = Model(inputs=inputs, outputs=[classify0,classify1])
 
     #model.compile(optimizer=RMSprop(lr=0.0001), loss=bce_dice_loss, metrics=[dice_coeff])
